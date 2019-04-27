@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class MapCell {
     Card card;
-    ArrayList<Spell> spells = new ArrayList<Spell>();
-    ArrayList<Item> items = new ArrayList<Spell>();
-    Effect effect;
+    private ArrayList<Spell> spells = new ArrayList<Spell>();
+    private ArrayList<Item> items = new ArrayList<Spell>();
+    private Effect effect;
 
     public Card getCard() {
         return card;

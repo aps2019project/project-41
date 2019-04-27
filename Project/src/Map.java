@@ -14,7 +14,7 @@ public class Map {
         fromCell = null;
     }
 
-    public void addCardToMao(Card card, MapCell cell) {
+    public void addCardToMap(Card card, MapCell cell) {
         cell.card = card;
     }
 

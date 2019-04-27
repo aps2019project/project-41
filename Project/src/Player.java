@@ -65,5 +65,14 @@ public class Player {
         this.decks.add(deck);
     }
 
+    public void buyCard(Card card) {
+        this.deriks -= card.getPrice();
+        this.collection.cards.add(card);
+    }
+
+    public void sellCard(Card card) {
+        this.deriks += card.getPrice();
+        this.collection.cards.remove(card);
+    }
 
 }
