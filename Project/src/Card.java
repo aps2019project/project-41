@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class Card {
     ArrayList<Card> cards = new ArrayList<>();
-    private int id;
-    private String name;
-    private int price;
+    private final int id;
+    private final String name;
+    private final int price;
 
     public Card(int id, String name, int price) {
         this.id = id;

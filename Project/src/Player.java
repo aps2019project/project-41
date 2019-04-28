@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class Player {
     private static ArrayList<Player> players = new ArrayList<Player>();
     private static Player logedInPlayer;
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
     private int deriks;
     private ArrayList<Game> games;
     private Collection collection;
