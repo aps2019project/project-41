@@ -6,7 +6,8 @@ public class Player {
     private final String username;
     private final String password;
     private int deriks;
-    private int wins ;
+    private int wins;
+    private Deck mainDeck;
     private ArrayList<Game> games;
     private Collection collection;
     private ArrayList<Deck> decks;
@@ -16,7 +17,7 @@ public class Player {
         this.password = password;
         this.deriks = deriks;
         Player.players.add(this);
-        wins = 0 ;
+        wins = 0;
     }
 
     public static void creatAccound(String name, String password, int deriks) {
@@ -47,15 +48,23 @@ public class Player {
         return this.deriks;
     }
 
-    public int getWins(){
-        return this.wins ;
+    public int getWins() {
+        return this.wins;
     }
 
-    public void setWins(int number){
-        this.wins = number ;
+    public Deck getMainDeck() {
+        return this.mainDeck;
     }
 
-    public Player getLogedInPlayer() {
+    public void setMainDeck(Deck deck) {
+        this.mainDeck = deck;
+    }
+
+    public void setWins(int number) {
+        this.wins = number;
+    }
+
+    public static Player getLogedInPlayer() {
         return Player.logedInPlayer;
     }
 
