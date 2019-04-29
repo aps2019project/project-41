@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class MapCell {
-    Card card;
+    private Card card;
     private ArrayList<Spell> spells = new ArrayList<Spell>();
     private ArrayList<Item> items = new ArrayList<Spell>();
     private Effect effect;
@@ -37,4 +37,22 @@ public class MapCell {
     public void setEffect(Effect effect) {
         this.effect = effect;
     }
+
+    void addCardToCell(Card card){
+        if(this.getCard() == null){
+          this.card = card;
+        }
+        else System.out.println("Error while adding card to cell");
+    }
+
+    void removeCardfromCell(){
+        if(this.getCard() == null){
+            System.out.println("Error! Cell is empty");
+        }
+        else{
+            this.setCard(null);
+        }
+    }
+
+
 }

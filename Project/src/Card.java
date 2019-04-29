@@ -5,13 +5,11 @@ public class Card {
     private final int id;
     private final String name;
     private final int price;
-
     public Card(int id, String name, int price) {
         this.id = id;
         this.name = name;
         this.price = price;
     }
-
     public ArrayList<Card> getCards() {
         return cards;
     }
@@ -27,4 +25,6 @@ public class Card {
     public int getPrice() {
         return price;
     }
+
+
 }
