@@ -1,7 +1,12 @@
 import java.util.Scanner ;
 public class Main {
     public static void main(String[] args) {
-        System.out.println("hello");
-        System.out.println("TEST by ali");
+        if(Menus.loginMenu() != -1)
+        {
+            while(Menus.mainMenu() != -1)
+            {
+
+            }
+        }
     }
 }
