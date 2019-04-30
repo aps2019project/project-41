@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Card {
-    ArrayList<Card> cards = new ArrayList<>();
+    private static ArrayList<Card> cards = new ArrayList<>();
     private final int id;
     private final String name;
     private final int price;
@@ -12,7 +12,7 @@ public class Card {
         this.price = price;
     }
 
-    public ArrayList<Card> getCards() {
+    public static ArrayList<Card> getCards() {
         return cards;
     }
 
