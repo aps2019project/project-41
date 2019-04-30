@@ -1,6 +1,7 @@
 import java.util.regex.Pattern;
 
 // watch starting deriks of the player when creating it in creat account command
+// saving functions in collection menu are not complete
 public class Menus {
     public static int mainMenu() {
         String command;
@@ -24,16 +25,33 @@ public class Menus {
     public static void shopMenu() {
         String command;
         while (true) {
-            command = Scanners.input.nextLine().trim() ;
-            if(command.equalsIgnoreCase("exit"))
-                return ;
-            else if(CheckingFunctions.checkIfShowCollectionCommandAndProccessIt(command)) ;
-            else if(CheckingFunctions.checkIfSearchItemOrCardCommandAndProccessIt(command));
+            command = Scanners.input.nextLine().trim();
+            if (command.equalsIgnoreCase("exit"))
+                return;
+            else if (command.equalsIgnoreCase("help"))
+                ShowCommands.showShopMenuCommands();
+            else if (CheckingFunctions.checkIfShowCollectionCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfSearchItemOrCardInShopCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfBuyCardCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfSellCardCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfShowCommandAndProccessIt(command)) ;
         }
     }
 
     public static void collectionMenu() {
+        String command ;
+        while(true){
+            command = Scanners.input.nextLine().trim() ;
+            if(command.equalsIgnoreCase("exit"))
+                return ;
+            else if (command.equalsIgnoreCase("show"))
+                ShowCommands.showCollection(Player.getLogedInPlayer());
+            else if (command.equalsIgnoreCase("save")) ;
+            else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfCreateDeckCommandAndProccessIt(command)) ;
 
+        }
     }
 
     public static int loginMenu() {
