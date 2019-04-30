@@ -5,16 +5,11 @@ public class Card {
     private int id;
     private String name;
     private int price;
-<<<<<<< HEAD
     public Card(int id, String name, int price) {
         this.id = id;
         this.name = name;
         this.price = price;
     }
-=======
-
->>>>>>> 71be82717f4be680b0e1fdf330cf3dbfefc4e415
-
     public ArrayList<Card> getCards() {
         return cards;
     }
