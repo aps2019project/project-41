@@ -17,7 +17,8 @@ public class ShowCommands {
     }
 
     public static void showMainMenuCommands() {
-
+        System.out.print("MainMenu Commands : \nexit\nenter Collection\nenter Shop\n" +
+                "enter battle\nhelp\n");
     }
 
     public static void showShopMenuCommands() {
@@ -27,10 +28,21 @@ public class ShowCommands {
     }
 
     public static void showCollectionMenuCommands() {
-
+        System.out.print("CollectionMenu Commands : \nexit\nshow\nsearch [card name | item name]\n" +
+                "save\ncreate deck [deck name]\ndelete deck [deck name]\nadd [card id | card id | hero id] to deck [deck name]\n" +
+                "remove [card id | card id | hero id] from deck [deck name]\nvalidate deck [deck name]\n" +
+                "select deck [deck name]\nshow all decks\nshow deck [deck name]\nhelp\n");
     }
 
     public static void showAllCardsInShop(){
+
+    }
+
+    public static void showPlayerDecks(Player player){
+        for(Deck deck : player.getDecks())
+            showDeck(deck);
+    }
+    public static void showDeck(Deck deck){
 
     }
 }

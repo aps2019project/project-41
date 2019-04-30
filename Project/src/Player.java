@@ -84,6 +84,10 @@ public class Player {
         this.decks.add(deck);
     }
 
+    public void deleteDeck(Deck deck){
+        this.decks.remove(deck) ;
+    }
+
     public void buyCard(Card card) {
         this.deriks -= card.getPrice();
         this.collection.cards.add(card);

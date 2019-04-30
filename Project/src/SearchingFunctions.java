@@ -23,4 +23,8 @@ public class SearchingFunctions {
         }
         return null ;
     }
+
+    public static Deck findPlayerDeck(String deckName , Player player){
+
+    }
 }

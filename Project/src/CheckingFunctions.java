@@ -153,6 +153,38 @@ public class CheckingFunctions {
         return false ;
     }
 
+    public static boolean checkIfDeleteDeckCommandAndProccessIt(String command){
+        if(Pattern.compile("delete\\s+deck\\s+\\w",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+            String deckName = command.split("\\s+")[2] ;
+            if(checkIfPlayerHasTheDeck(deckName , Player.getLogedInPlayer()))
+                Player.getLogedInPlayer().deleteDeck(SearchingFunctions.findPlayerDeck(deckName , Player.getLogedInPlayer()));
+            else
+                System.out.print("you have no deck with this name\n");
+            return true ;
+        }
+        return false ;
+    }
+
+    public static boolean checkIfAddCardToDeckCommandAndProccessIt(String command){
+
+    }
+
+    public static boolean checkIfRemoveCardFromDeckCommandAndProccessIt(String command){
+
+    }
+
+    public static boolean checkIfValidateDeckCommandAndProccessIt(String command){
+
+    }
+
+    public static boolean checkIfSelectDeckCommandAndProccessIt(String command){
+
+    }
+
+
+
+
+
 
     public static boolean checkIfUserNameExists(String userName) {
         for (Player player : Player.getPlayers()) {
