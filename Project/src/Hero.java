@@ -5,11 +5,13 @@ public class Hero extends Card{
     private int attackRange;
     private String attackType;
     private Spell specialPower;
+    private int manaNeededForSpecialPower;
     private String strikeType;
 
 
-    public Hero(int hp, int ap, int coolDown, int attackRange, String attackType,
+    public Hero(int id, String name, int price,int hp, int ap, int coolDown, int attackRange, String attackType,
                 Spell specialPower, String strikeType) {
+        super(id, name, price);
         this.hp = hp;
         this.ap = ap;
         this.coolDown = coolDown;
@@ -46,6 +48,8 @@ public class Hero extends Card{
     public String getStrikeType() {
         return strikeType;
     }
+
+    public int getManaNeededForSpecialPower(){return manaNeededForSpecialPower}
 
     public void setHp(int hp) {
         this.hp = hp;
