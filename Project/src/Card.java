@@ -2,19 +2,14 @@ import java.util.ArrayList;
 
 public class Card {
     private static ArrayList<Card> cards = new ArrayList<>();
-    private int id;
-    private String name;
-    private int price;
-<<<<<<< HEAD
+    private final int id;
+    private final String name;
+    private final int price;
     public Card(int id, String name, int price) {
         this.id = id;
         this.name = name;
         this.price = price;
     }
-=======
-
->>>>>>> 71be82717f4be680b0e1fdf330cf3dbfefc4e415
-
     public ArrayList<Card> getCards() {
         return cards;
     }
