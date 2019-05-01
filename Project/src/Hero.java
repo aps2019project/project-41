@@ -49,7 +49,7 @@ public class Hero extends Card{
         return strikeType;
     }
 
-    public int getManaNeededForSpecialPower(){return manaNeededForSpecialPower}
+    public int getManaNeededForSpecialPower(){return manaNeededForSpecialPower; }
 
     public void setHp(int hp) {
         this.hp = hp;
@@ -63,5 +63,8 @@ public class Hero extends Card{
         this.coolDown = coolDown;
     }
 
-
+    @Override
+    public String getCardType() {
+        return "Hero";
+    }
 }

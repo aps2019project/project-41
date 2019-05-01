@@ -79,4 +79,8 @@ public class Minion extends Card{
 
     }
 
+    @Override
+    public String getCardType() {
+        return "Minion";
+    }
 }
