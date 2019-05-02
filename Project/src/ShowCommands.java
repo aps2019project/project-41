@@ -45,4 +45,8 @@ public class ShowCommands {
     public static void showDeck(Deck deck){
 
     }
+
+    public static void showAllCardsInShop(){
+
+    }
 }

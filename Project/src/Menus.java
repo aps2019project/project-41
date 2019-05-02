@@ -66,6 +66,10 @@ public class Menus {
                 else
                     System.out.print("you have no deck with this name\n");
             }
+            else if (command.equalsIgnoreCase("save")) ;
+            else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfCreateDeckCommandAndProccessIt(command)) ;
+
         }
     }
 

@@ -112,78 +112,73 @@ public class CheckingFunctions {
                 }
             } else
                 System.out.print("no card with this name\n");
-            return true ;
+            return true;
         }
         return false;
     }
 
     public static boolean checkIfSellCardCommandAndProccessIt(String command) {
-        if(Pattern.compile("sell\\s+\\w+" , Pattern.CASE_INSENSITIVE).matcher(command).matches()){
-            String cardName = command.split("\\s+")[1] ;
-            if(checkIfPlayerHasTheCard(cardName)){
+        if (Pattern.compile("sell\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            String cardName = command.split("\\s+")[1];
+            if (checkIfPlayerHasTheCard(cardName)) {
                 Player.getLogedInPlayer().sellCard(SearchingFunctions.findCardInAllCards(cardName));
                 System.out.print("you sold the card\n");
-            }
-            else
+            } else
                 System.out.print("you don't have any card with this name\n");
-            return true ;
+            return true;
         }
-        return false ;
+        return false;
     }
 
-    public static boolean checkIfShowCommandAndProccessIt(String command){
-        if(command.equalsIgnoreCase("show")){
+    public static boolean checkIfShowCommandAndProccessIt(String command) {
+        if (command.equalsIgnoreCase("show")) {
             ShowCommands.showAllCardsInShop();
-            return true ;
+            return true;
         }
-        return false ;
+        return false;
     }
     //
     // collection menu commands
 
-    public static boolean checkIfCreateDeckCommandAndProccessIt(String command){
-        if(Pattern.compile("create\\s+deck\\w+" , Pattern.CASE_INSENSITIVE).matcher(command).matches()){
-            String deckName = command.split("\\s+")[2] ;
-            if(checkIfPlayerHasTheDeck(deckName , Player.getLogedInPlayer()))
+    public static boolean checkIfCreateDeckCommandAndProccessIt(String command) {
+        if (Pattern.compile("create\\s+deck\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            String deckName = command.split("\\s+")[2];
+            if (checkIfPlayerHasTheDeck(deckName, Player.getLogedInPlayer()))
                 System.out.print("you already have a deck with this name\n");
             else
                 Player.getLogedInPlayer().addDeck(new Deck()); // should add deck's name
-            return true ;
+            return true;
         }
-        return false ;
+        return false;
     }
 
-    public static boolean checkIfDeleteDeckCommandAndProccessIt(String command){
-        if(Pattern.compile("delete\\s+deck\\s+\\w",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
-            String deckName = command.split("\\s+")[2] ;
-            if(checkIfPlayerHasTheDeck(deckName , Player.getLogedInPlayer()))
-                Player.getLogedInPlayer().deleteDeck(SearchingFunctions.findPlayerDeck(deckName , Player.getLogedInPlayer()));
+    public static boolean checkIfDeleteDeckCommandAndProccessIt(String command) {
+        if (Pattern.compile("delete\\s+deck\\s+\\w", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            String deckName = command.split("\\s+")[2];
+            if (checkIfPlayerHasTheDeck(deckName, Player.getLogedInPlayer()))
+                Player.getLogedInPlayer().deleteDeck(SearchingFunctions.findPlayerDeck(deckName, Player.getLogedInPlayer()));
             else
                 System.out.print("you have no deck with this name\n");
-            return true ;
+            return true;
         }
-        return false ;
+        return false;
     }
 
-    public static boolean checkIfAddCardToDeckCommandAndProccessIt(String command){
-
-    }
-
-    public static boolean checkIfRemoveCardFromDeckCommandAndProccessIt(String command){
+    public static boolean checkIfAddCardToDeckCommandAndProccessIt(String command) {
 
     }
 
-    public static boolean checkIfValidateDeckCommandAndProccessIt(String command){
+    public static boolean checkIfRemoveCardFromDeckCommandAndProccessIt(String command) {
 
     }
 
-    public static boolean checkIfSelectDeckCommandAndProccessIt(String command){
+    public static boolean checkIfValidateDeckCommandAndProccessIt(String command) {
 
     }
 
+    public static boolean checkIfSelectDeckCommandAndProccessIt(String command) {
 
-
-
+    }
 
 
     public static boolean checkIfUserNameExists(String userName) {
@@ -199,13 +194,21 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfPlayerHasTheCard(String cardName){
+    public static boolean checkIfPlayerHasTheCard(String cardName) {
 
-        return false ;
+        return false;
     }
 
-    public static boolean checkIfPlayerHasTheDeck(String deckName , Player player){
+    public static boolean checkIfPlayerHasTheDeck(String deckName, Player player) {
+
+        public static boolean checkIfPlayerHasTheCard (String cardName){
+
+            return false;
+        }
+
+        public static boolean checkIfPlayerHasTheDeck (String deckName, Player player){
+
+        }
 
     }
-
 }

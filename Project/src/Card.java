@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Card {
+public abstract class Card {
     private static ArrayList<Card> cards = new ArrayList<>();
     private final int id;
     private final String name;
@@ -11,7 +11,6 @@ public class Card {
         this.name = name;
         this.price = price;
     }
-
     public static ArrayList<Card> getCards() {
         return cards;
     }
@@ -27,4 +26,9 @@ public class Card {
     public int getPrice() {
         return price;
     }
+
+    public Player getPlayer() { return player; }
+
+    public String getCardType() { return "";}
+
 }
