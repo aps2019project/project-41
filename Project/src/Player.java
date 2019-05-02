@@ -94,4 +94,11 @@ public class Player {
         this.collection.cards.remove(card);
     }
 
+    public void addCardToDeck(Card card, Deck deck) {
+
+    }
+
+    public void deletCardFromDeck(Card card, Deck deck) {
+
+    }
 }

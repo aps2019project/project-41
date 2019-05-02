@@ -21,10 +21,16 @@ public class ShowCommands {
     }
 
     public static void showShopMenuCommands() {
-
+        System.out.printf("ShopMenu Commands : \nexit\nshow collection\nsearch [item name | card name]\n" +
+                "search collection [item name | card name]\nbuy [item name | card name]\n" +
+                "sell [item name | card name]\nshow\nhelp\n");
     }
 
     public static void showCollectionMenuCommands() {
+
+    }
+
+    public static void showAllCardsInShop(){
 
     }
 }

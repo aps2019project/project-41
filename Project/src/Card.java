@@ -10,21 +10,19 @@ public class Card {
         this.name = name;
         this.price = price;
     }
+
     public ArrayList<Card> getCards() {
-        return cards;
+        public static ArrayList<Card> getCards () {
+            return cards;
+        }
+        public int getId () {
+            return id;
+        }
+        public String getName () {
+            return name;
+        }
+        public int getPrice () {
+            return price;
+        }
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-
 }
