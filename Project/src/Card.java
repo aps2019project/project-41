@@ -12,7 +12,6 @@ public class Card {
     }
 
     public ArrayList<Card> getCards() {
-        public static ArrayList<Card> getCards () {
             return cards;
         }
         public int getId () {
@@ -25,4 +24,3 @@ public class Card {
             return price;
         }
     }
-}
