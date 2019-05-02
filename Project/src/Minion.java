@@ -9,7 +9,9 @@ public class Minion extends Card{
     private String group;
     private String type;
     //constructor, getter, setter
-    public Minion(int hp, int ap, int mana, int attacks, int attackRange, String attackType, int specialAbilityNumber, String group, String type) {
+    public Minion(int id, String name, int price,int hp, int ap, int mana, int attacks, int attackRange, String attackType,
+                  int specialAbilityNumber, String group, String type) {
+        super(id, name, price);
         this.hp = hp;
         this.ap = ap;
         this.mana = mana;
@@ -19,6 +21,10 @@ public class Minion extends Card{
         this.specialAbilityNumber = specialAbilityNumber;
         this.group = group;
         this.type = type;
+    }
+
+    public Minion(int id, String name, int price) {
+        super(id, name, price);
     }
 
     public int getHp() {
@@ -73,4 +79,8 @@ public class Minion extends Card{
 
     }
 
+    @Override
+    public String getCardType() {
+        return "Minion";
+    }
 }

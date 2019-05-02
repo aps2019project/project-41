@@ -15,7 +15,7 @@ public class Map {
     }
 
     public void addCardToMap(Card card, MapCell cell) {
-        cell.card = card;
+        cell.setCard(card);
     }
 
     public void attack(MapCell fromCell, MapCell toCell) {
