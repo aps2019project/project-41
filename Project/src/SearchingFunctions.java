@@ -27,4 +27,20 @@ public class SearchingFunctions {
     public static Deck findPlayerDeck(String deckName , Player player){
 
     }
+
+    public static int getNumberOfPlayerHavingCard(Card card , Game game){
+        for(Card card1 : game.getCardsInDeck()[0]){
+            if(card1 == card)
+                return 0 ;
+        }
+        for(Card card1 : game.getCardsInDeck()[1]){
+            if(card1 == card)
+                return 1 ;
+        }
+        return 2 ;
+    } // just watches for the cards in map
+
+
+
+
 }

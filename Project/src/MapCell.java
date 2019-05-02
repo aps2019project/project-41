@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class MapCell {
-    Card card;
+    private Card card;
     private ArrayList<Spell> spells = new ArrayList<Spell>();
     private ArrayList<Item> items = new ArrayList<Spell>();
     private Effect effect;
