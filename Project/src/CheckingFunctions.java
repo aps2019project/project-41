@@ -3,6 +3,7 @@ import java.util.regex.Pattern;
 //checkifsavecommand not complete
 //searchItemOrCardCommand just searches the first name
 // not checking items in buying card in shop
+// remember to make cardID a String
 public class CheckingFunctions {
     // login menu commands
     public static boolean checkIfCreateAccountCommandAndProccessIt(String command) {
@@ -130,7 +131,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfShowCommandAndProccessIt(String command) {
+    public static boolean checkIfShopShowCommandAndProccessIt(String command) {
         if (command.equalsIgnoreCase("show")) {
             ShowCommands.showAllCardsInShop();
             return true;
@@ -179,6 +180,64 @@ public class CheckingFunctions {
     public static boolean checkIfSelectDeckCommandAndProccessIt(String command) {
 
     }
+
+    //
+    //inBattleCommands
+
+    public static boolean checkIfBattleShowCommandAndProccessIt(String command) {
+        if (Pattern.compile("game\\s+info", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            ShowCommands.showGameInfo(Game.getOnGoingGame());
+            return true;
+        } else if (Pattern.compile("show\\s+my\\s+minions", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            ShowCommands.showPlayerMinions(Game.getOnGoingGame(), Game.getOnGoingGame().getTurn() % 2);
+            return true;
+        } else if (Pattern.compile("show\\s+opponent\\s+minions", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            if (Game.getOnGoingGame().getTurn() % 2 == 1)
+                ShowCommands.showPlayerMinions(Game.getOnGoingGame(), 0);
+            else
+                ShowCommands.showPlayerMinions(Game.getOnGoingGame(), 1);
+            return true;
+        } else if (Pattern.compile("show\\s+card\\s+info\\s+\\w", Pattern.CASE_INSENSITIVE).matcher(command).matches())
+            ShowCommands.showCardInfo(command.split("\\s+")[3], Game.getOnGoingGame());
+        return false;
+    }
+
+    public static int returnPlayerNumberWhoWonTheGameMode1(Game game) {
+        for (Card card : game.getcardsInMap().get(0)) {
+            if (card instanceof Hero)
+                if (((Hero) card).getHp() <= 0)
+                    return 1;
+        }
+        for (Card card : game.getcardsInMap().get(1)) {
+            if (card instanceof Hero)
+                if (((Hero) card).getHp() <= 0)
+                    return 0;
+        }
+        return -1;
+    }
+
+    public static int returnPlayerNumberWhoWonTheGameMode2(Game game){
+
+    }
+
+    public static int returnPlayerNumberWhoWonTheGameMode3(Game game){
+
+    }
+
+    public static boolean checkIfSelectCardCommandAndProccessIt(String command , Game game){
+        if(Pattern.compile("select\\s+\\w+",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+            Card card = SearchingFunctions.findCardInGame(command.split("\\s+")[1] , game) ;
+            if(card != null)
+                game.selectCard(card);
+            else
+                System.out.print("card with this id doesnt exists") ;
+            return true ;
+        }
+        return false ;
+    }
+
+
+
 
 
     public static boolean checkIfUserNameExists(String userName) {

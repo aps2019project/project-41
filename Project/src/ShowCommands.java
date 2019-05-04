@@ -7,7 +7,7 @@ public class ShowCommands {
         }
     }
 
-    public static void showCollection(Player player){
+    public static void showCollection(Player player) {
 
     }
 
@@ -34,19 +34,57 @@ public class ShowCommands {
                 "select deck [deck name]\nshow all decks\nshow deck [deck name]\nhelp\n");
     }
 
-    public static void showAllCardsInShop(){
-
-    }
-
-    public static void showPlayerDecks(Player player){
-        for(Deck deck : player.getDecks())
+    public static void showPlayerDecks(Player player) {
+        for (Deck deck : player.getDecks())
             showDeck(deck);
     }
-    public static void showDeck(Deck deck){
+
+    public static void showDeck(Deck deck) {
 
     }
 
-    public static void showAllCardsInShop(){
+    public static void showAllCardsInShop() {
+
+    }
+
+    public static void showGameInfo(Game game) {
+        if (game.getGameMode() == 1)
+            showHerosHealth(game);
+        else if (game.getGameMode() == 2)
+            showFlagLocation(game.getMap().getMapCells());
+        else if (game.getGameMode() == 3)
+            showCardsHavingFlag(game);
+
+    }
+
+    public static void showHerosHealth(Game game) {
+        Map map = game.getMap();
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (map.getMapCells()[i][j].getCard() instanceof Hero)
+                    System.out.printf("%s health : %d", map.getMapCells()[i][j].getCard().getName(), ((Hero) map.getMapCells()[i][j].getCard()).getHp());
+            }
+        }
+    }
+
+    public static void showFlagLocation(MapCell[][] mapCells) {
+
+    }
+
+    public static void showCardsHavingFlag(Game game) {
+
+    }
+
+    public static void showPlayerMinions(Game game, int playerNumber) {
+        for (Card card : game.getcardsInMap().get(playerNumber)) {
+            if (card instanceof Minion)
+                System.out.printf("%s : %s , Health : %d , Location : %s , Power : %d\n",
+                        card.getId(), card.getName(), ((Minion) card).getHp(),
+                        SearchingFunctions.getCardLocation(game, card), ((Minion) card).getAp());
+        }
+    }
+
+    public static void showCardInfo(String cardID, Game game) {
 
     }
 }
