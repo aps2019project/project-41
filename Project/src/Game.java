@@ -10,7 +10,7 @@ public class Game {
     private Map map;
     private int turn;
     private int[] mana;
-    private Card selectedCard ;
+    private Card selectedCard;
     private ArrayList<ArrayList<Card>> cardsInMap;
     private ArrayList<ArrayList<Card>> cardsInHand;
     private ArrayList<ArrayList<Card>> cardsInDeck;
@@ -30,7 +30,7 @@ public class Game {
         this.turn++;
         this.mana[0] = turn / 2 + 1;
         this.mana[1] = turn / 2 + 1;
-        selectedCard = null ;
+        selectedCard = null;
     }
 
     public int getTurn() {
@@ -61,11 +61,11 @@ public class Game {
         return this.gameMode;
     }
 
-    public static Game getOnGoingGame(){
+    public static Game getOnGoingGame() {
         return onGoingGame;
     }
 
-    public Card getSelectedCard(){
+    public Card getSelectedCard() {
         return this.selectedCard;
     }
 
@@ -77,7 +77,7 @@ public class Game {
     public void insertCard(Card card, int x, int y) {
         if (map.getMapCells()[x][y].getCard() == null) {
             map.getMapCells()[x][y].setCard(card);
-            int playerNumber = SearchingFunctions.getNumberOfPlayerHavingCard(card, onGoingGame);
+            int playerNumber = this.getTurn()%2;
             cardsInHand.get(playerNumber).remove(card);
             cardsInMap.get(playerNumber).add(card);
             if (!cardsInDeck.get(playerNumber).isEmpty()) {
@@ -88,18 +88,22 @@ public class Game {
             System.out.print("there is already a card in that mapcell\n");
     }
 
-    public void selectCard(Card card){
-        this.selectedCard = card ;
+    public void selectCard(Card card) {
+        this.selectedCard = card;
     }
 
-    public static int watchIfGameEnds(Game game){
-        if(game.getGameMode() == 1)
+    public static int watchIfGameEnds(Game game) {
+        if (game.getGameMode() == 1)
             return CheckingFunctions.returnPlayerNumberWhoWonTheGameMode1(game);
-        else if(game.getGameMode() == 2)
+        else if (game.getGameMode() == 2)
             return CheckingFunctions.returnPlayerNumberWhoWonTheGameMode2(game);
-        else if(game.getGameMode() == 3)
+        else if (game.getGameMode() == 3)
             return CheckingFunctions.returnPlayerNumberWhoWonTheGameMode3(game);
-        return -1 ;
+        return -1;
     }//retruns -1 if no one wins the game , return number of player if he wins(0 , 1)
 
+    public void moveCard(Card card , int[] CardLocation , int[] destination){
+        this.map.getMapCells()[CardLocation[0]][CardLocation[1]].setCard(null);
+        this.map.getMapCells()[destination[0]][destination[1]].setCard(card);
+    }
 }

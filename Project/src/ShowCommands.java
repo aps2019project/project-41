@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ShowCommands {
     public static void showLeaderBoard() {
         int i;
@@ -78,13 +80,26 @@ public class ShowCommands {
     public static void showPlayerMinions(Game game, int playerNumber) {
         for (Card card : game.getcardsInMap().get(playerNumber)) {
             if (card instanceof Minion)
+            {
+                int[] location = SearchingFunctions.getCardLocation(game, card) ;
                 System.out.printf("%s : %s , Health : %d , Location : %s , Power : %d\n",
                         card.getId(), card.getName(), ((Minion) card).getHp(),
-                        SearchingFunctions.getCardLocation(game, card), ((Minion) card).getAp());
+                        "("+Integer.toString(location[0])+","+Integer.toString(location[1])+")"
+                        , ((Minion) card).getAp());
+            }
+
         }
     }
 
     public static void showCardInfo(String cardID, Game game) {
 
+    }
+
+    public static void showHand(Game game , int playerNumber){
+        for(Card card : game.getCardsInHand().get(playerNumber)){
+            System.out.printf("%s\n" , card.getName());
+        }
+        if(!game.getCardsInDeck().isEmpty())
+            System.out.printf("%s\n" , game.getcardsInMap().get(playerNumber).get(0));
     }
 }
