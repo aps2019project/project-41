@@ -35,7 +35,7 @@ public class Menus {
             else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProccessIt(command)) ;
             else if (CheckingFunctions.checkIfBuyCardCommandAndProccessIt(command)) ;
             else if (CheckingFunctions.checkIfSellCardCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfShowCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfShopShowCommandAndProccessIt(command)) ;
         }
     }
 
