@@ -5,6 +5,7 @@ public abstract class Card {
     private final int id;
     private final String name;
     private final int price;
+    private Player player;
 
     public Card(int id, String name, int price) {
         this.id = id;

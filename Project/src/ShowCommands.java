@@ -34,10 +34,6 @@ public class ShowCommands {
                 "select deck [deck name]\nshow all decks\nshow deck [deck name]\nhelp\n");
     }
 
-    public static void showAllCardsInShop(){
-
-    }
-
     public static void showPlayerDecks(Player player){
         for(Deck deck : player.getDecks())
             showDeck(deck);

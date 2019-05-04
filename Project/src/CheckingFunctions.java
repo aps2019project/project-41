@@ -201,14 +201,7 @@ public class CheckingFunctions {
 
     public static boolean checkIfPlayerHasTheDeck(String deckName, Player player) {
 
-        public static boolean checkIfPlayerHasTheCard (String cardName){
 
-            return false;
-        }
-
-        public static boolean checkIfPlayerHasTheDeck (String deckName, Player player){
-
-        }
-
+        return false;
     }
 }

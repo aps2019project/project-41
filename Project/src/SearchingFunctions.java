@@ -24,16 +24,9 @@ public class SearchingFunctions {
         return null;
     }
 
-    public static Card findCardInAllCards(String cardName) {
-        for (Card card : Card.getCards()) {
-            if (card.getName().equalsIgnoreCase(cardName))
-                return card;
-        }
-        return null;
-    }
 
     public static Deck findPlayerDeck(String deckName, Player player) {
-
+        return null;
     }
 
     public static int getNumberOfPlayerHavingCard(Card card, Game game) {

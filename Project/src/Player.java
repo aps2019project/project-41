@@ -72,7 +72,7 @@ public class Player {
         return this.collection;
     }
 
-    public ArrayList<Desk> getDecks() {
+    public ArrayList<Deck> getDecks() {
         return this.decks;
     }
 
