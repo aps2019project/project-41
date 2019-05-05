@@ -184,7 +184,7 @@ public class CheckingFunctions {
     //
     //inBattleCommands
 
-    public static boolean checkIfBattleShowCommandAndProccessIt(String command) {
+    public static boolean checkIfBattleShowCommandAndProccessIt(String command , Game game) {
         if (Pattern.compile("game\\s+info", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             ShowCommands.showGameInfo(Game.getOnGoingGame());
             return true;
@@ -197,8 +197,13 @@ public class CheckingFunctions {
             else
                 ShowCommands.showPlayerMinions(Game.getOnGoingGame(), 1);
             return true;
-        } else if (Pattern.compile("show\\s+card\\s+info\\s+\\w", Pattern.CASE_INSENSITIVE).matcher(command).matches())
+        } else if (Pattern.compile("show\\s+card\\s+info\\s+\\w", Pattern.CASE_INSENSITIVE).matcher(command).matches()){
             ShowCommands.showCardInfo(command.split("\\s+")[3], Game.getOnGoingGame());
+            return true;
+        }else if (Pattern.compile("show\\s+hand",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+            ShowCommands.showHand(game , game.getTurn()%2);
+            return true ;
+        }
         return false;
     }
 
@@ -216,26 +221,59 @@ public class CheckingFunctions {
         return -1;
     }
 
-    public static int returnPlayerNumberWhoWonTheGameMode2(Game game){
+    public static int returnPlayerNumberWhoWonTheGameMode2(Game game) {
 
     }
 
-    public static int returnPlayerNumberWhoWonTheGameMode3(Game game){
+    public static int returnPlayerNumberWhoWonTheGameMode3(Game game) {
 
     }
 
-    public static boolean checkIfSelectCardCommandAndProccessIt(String command , Game game){
-        if(Pattern.compile("select\\s+\\w+",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
-            Card card = SearchingFunctions.findCardInGame(command.split("\\s+")[1] , game) ;
-            if(card != null)
+    public static boolean checkIfSelectCardCommandAndProccessIt(String command, Game game) {
+        if (Pattern.compile("select\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            Card card = SearchingFunctions.findCardInGame(command.split("\\s+")[1], game);
+            if (card != null)
                 game.selectCard(card);
             else
-                System.out.print("card with this id doesnt exists") ;
+                System.out.print("card with this id doesnt exists");
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean checkIfMoveCommandAndProccessIt(String command, Game game) {
+        if (Pattern.compile("move\\s+to\\s+\\(\\d,\\d\\)", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            if(game.getSelectedCard() != null){
+                int[] cardLocation = SearchingFunctions.getCardLocation(game , game.getSelectedCard());
+                String location = command.split("\\s+")[2].substring(1,4);
+                int[] destination = new int[]{Integer.parseInt(location.substring(0 , 1)) ,
+                        Integer.parseInt(String.valueOf(location.charAt(2)))};
+                if(Math.abs(cardLocation[0] - destination[0]) + Math.abs(cardLocation[1] - destination[1])  <= 2)
+                    game.moveCard(game.getSelectedCard() , cardLocation , destination);
+            }
             return true ;
         }
         return false ;
     }
 
+    public static boolean checkIfInsertCardCommandAndProccessIt(String command , Game game){
+        if(Pattern.compile("insert\\s+\\w+\\s+in\\s+\\(\\d,\\d\\)").matcher(command).matches()){
+            String cardName = command.split("\\s+")[1];
+            int[] destination = new int[]{Integer.parseInt(String.valueOf(command.split("\\s")[3].substring(1 , 4).charAt(0))),
+                    Integer.parseInt(String.valueOf(command.split("\\s")[3].substring(1 , 4).charAt(2)))} ;
+            Card card = SearchingFunctions.findCardInHand(cardName , game , game.getTurn()%2);
+            if(card != null){
+                if(game.getMap().getMapCells()[destination[0]][destination[1]].getCard() == null)
+                    game.insertCard(card , destination[0] , destination[1]);
+                else
+                    System.out.print("invalid target\n");
+            }
+            else
+                System.out.print("invalid card name\n");
+            return true ;
+        }
+        return false ;
+    }
 
 
 
