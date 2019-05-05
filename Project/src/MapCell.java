@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class MapCell {
     private Card card;
-    private ArrayList<Spell> spells = new ArrayList<Spell>();
+    private ArrayList<Item> items = new ArrayList<>();
 
     public Card getCard() {
         return card;
@@ -11,15 +11,6 @@ public class MapCell {
     public void setCard(Card card) {
         this.card = card;
     }
-
-    public ArrayList<Spell> getSpells() {
-        return spells;
-    }
-
-    public void setSpells(ArrayList<Spell> spells) {
-        this.spells = spells;
-    }
-
     public ArrayList<Item> getItems() {
         return items;
     }
