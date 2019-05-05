@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 // remember to make cardID a String
 //not checking if deckName is invalid in addCardToDeck command in collection
 //when adding card to deck in collection , how should we know the id of the cards(used name instead)
+//not generating any card id so i used card name instead in some cases --- > watch out shop and collection commands
 public class CheckingFunctions {
     // login menu commands
     public static boolean checkIfCreateAccountCommandAndProccessIt(String command) {
@@ -77,8 +78,8 @@ public class CheckingFunctions {
     public static boolean checkIfSearchItemOrCardInShopCommandAndProccessIt(String command) {
         if (Pattern.compile("search\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String splitedCommand[] = command.split("\\s+");
-            int id = SearchingFunctions.searchForCardOrItemInShopAndReturnID(splitedCommand[1]);
-            if (id == 0)
+            String id = SearchingFunctions.searchForCardOrItemInShopAndReturnID(splitedCommand[1]);
+            if (id.equalsIgnoreCase(""))
                 System.out.print("no card or item with this name\n");
             else
                 System.out.printf("ID : %d", id);
@@ -101,20 +102,25 @@ public class CheckingFunctions {
 
     public static boolean checkIfBuyCardCommandAndProccessIt(String command) {
         if (Pattern.compile("buy\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
-            String cardName = command.split("\\s+")[1];
-            if (checkIfCardExistsInShop(cardName)) {
-                Card card = SearchingFunctions.findCardInAllCards(cardName);
+            String cardOrItemName = command.split("\\s+")[1];
+            if (checkIfCardExistsInShop(cardOrItemName)) {
+                Card card = SearchingFunctions.findCardInAllCards(cardOrItemName);
                 if (Player.getLogedInPlayer().getDeriks() < card.getPrice())
                     System.out.print("not enough deriks\n");
                 else {
-                    if (true)/*checking for three item in player collection*/ {
                         Player.getLogedInPlayer().buyCard(card);
                         System.out.print("you bought the card\n");
-                    } else
-                        System.out.print("you already have three items in your collection\n");
+                }
+            } else if (checkIfItemExistsInShop(cardOrItemName)) {
+                Item item = SearchingFunctions.findItemInAllItems(cardOrItemName);
+                if(Player.getLogedInPlayer().getDeriks() < item.getPrice())
+                    System.out.print("not enough deriks\n");
+                else{
+                    Player.getLogedInPlayer().buyItem(item);
+                    System.out.print("you bought the item\n");
                 }
             } else
-                System.out.print("no card with this name\n");
+                System.out.print("there is no card or item with this name in the shop\n");
             return true;
         }
         return false;
@@ -122,12 +128,19 @@ public class CheckingFunctions {
 
     public static boolean checkIfSellCardCommandAndProccessIt(String command) {
         if (Pattern.compile("sell\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
-            String cardName = command.split("\\s+")[1];
-            if (checkIfPlayerHasTheCard(cardName)) {
-                Player.getLogedInPlayer().sellCard(SearchingFunctions.findCardInAllCards(cardName));
+            String cardOrItemName = command.split("\\s+")[1];
+            Card card = SearchingFunctions.findCardInCollection(cardOrItemName, Player.getLogedInPlayer());
+            if (card != null) {
+                Player.getLogedInPlayer().sellCard(card);
                 System.out.print("you sold the card\n");
-            } else
-                System.out.print("you don't have any card with this name\n");
+            } else {
+                Item item = SearchingFunctions.findItemInCollection(cardOrItemName, Player.getLogedInPlayer());
+                if (item != null) {
+                    Player.getLogedInPlayer().sellItem(item);
+                    System.out.print("you sold the item\n");
+                } else
+                    System.out.print("you don't have any card with this name\n");
+            }
             return true;
         }
         return false;
@@ -200,75 +213,68 @@ public class CheckingFunctions {
     }
 
     public static boolean checkIfRemoveCardFromDeckCommandAndProccessIt(String command) {
-        if(Pattern.compile("remove\\s+\\w+\\s+from\\s+deck\\s+\\w+",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+        if (Pattern.compile("remove\\s+\\w+\\s+from\\s+deck\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String cardOrItemName = command.split("\\s+")[1];
             String deckName = command.split("\\s+")[4];
-            Deck deck = SearchingFunctions.findPlayerDeck(deckName , Player.getLogedInPlayer());
-            Card card = SearchingFunctions.findCardInCollection(cardOrItemName , Player.getLogedInPlayer());
-            if(card != null){
-                if(checkIfCardCanBeRemovedFromTheDeck(card , deck)){
-                    if(card instanceof Minion){
+            Deck deck = SearchingFunctions.findPlayerDeck(deckName, Player.getLogedInPlayer());
+            Card card = SearchingFunctions.findCardInCollection(cardOrItemName, Player.getLogedInPlayer());
+            if (card != null) {
+                if (checkIfCardCanBeRemovedFromTheDeck(card, deck)) {
+                    if (card instanceof Minion) {
                         deck.removeCard(card);
                         System.out.print("card removed\n");
-                    }
-                    else{
+                    } else {
                         deck.removeHero();
                         System.out.print("Hero removed\n");
                     }
                 }
-            }
-            else {
-                Item item = SearchingFunctions.findItemInCollection(cardOrItemName , Player.getLogedInPlayer());
-                if(item != null){
-                    if(deck.getItem() == item){
+            } else {
+                Item item = SearchingFunctions.findItemInCollection(cardOrItemName, Player.getLogedInPlayer());
+                if (item != null) {
+                    if (deck.getItem() == item) {
                         deck.removeItem();
                         System.out.print("item removed\n");
-                    }
-                    else
+                    } else
                         System.out.print("this item is not in this deck\n");
-                }
-                else
-                {
+                } else {
                     System.out.print("you don't have this card");
                 }
             }
             return true;
         }
-        return false ;
+        return false;
     }
 
     public static boolean checkIfValidateDeckCommandAndProccessIt(String command) {
-        if(Pattern.compile("validate\\s+deck\\s+\\w+",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+        if (Pattern.compile("validate\\s+deck\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String deckName = command.split("\\s+")[2];
-            Deck deck = SearchingFunctions.findPlayerDeck(deckName , Player.getLogedInPlayer());
-            if(deck != null){
-                if(checkIfDeckIsValid(deck))
+            Deck deck = SearchingFunctions.findPlayerDeck(deckName, Player.getLogedInPlayer());
+            if (deck != null) {
+                if (checkIfDeckIsValid(deck))
                     System.out.print("this deck is valid\n");
                 else
                     System.out.print("this deck is not valid\n");
-            }
-            else
+            } else
                 System.out.print("you don't have any deck with this name\n");
-            return true ;
+            return true;
         }
-        return false ;
+        return false;
     }
 
     public static boolean checkIfSelectDeckCommandAndProccessIt(String command) {
-        if(Pattern.compile("select\\s+deck\\s+\\w+",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+        if (Pattern.compile("select\\s+deck\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String deckName = command.split("\\s+")[2];
-            Deck deck = SearchingFunctions.findPlayerDeck(deckName , Player.getLogedInPlayer());
-            if(deck != null){
-                if(checkIfDeckIsValid(deck))
+            Deck deck = SearchingFunctions.findPlayerDeck(deckName, Player.getLogedInPlayer());
+            if (deck != null) {
+                if (checkIfDeckIsValid(deck))
                     Player.getLogedInPlayer().setMainDeck(deck);
                 else
                     System.out.print("this deck is not valid\n");
-            }
-            else
+            } else
                 System.out.print("you have no deck with this name\n");
             return true;
         }
-        return false ;
+        return false;
     }
 
     //
@@ -310,14 +316,14 @@ public class CheckingFunctions {
         }
         return -1;
     }
-
-    public static int returnPlayerNumberWhoWonTheGameMode2(Game game) {
-
-    }
-
-    public static int returnPlayerNumberWhoWonTheGameMode3(Game game) {
-
-    }
+//
+//    public static int returnPlayerNumberWhoWonTheGameMode2(Game game) {
+//
+//    }
+//
+//    public static int returnPlayerNumberWhoWonTheGameMode3(Game game) {
+//
+//    }
 
     public static boolean checkIfSelectCardCommandAndProccessIt(String command, Game game) {
         if (Pattern.compile("select\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
@@ -364,8 +370,8 @@ public class CheckingFunctions {
         return false;
     }
 
-
-
+    //
+    //not categorized commands
 
     public static boolean checkIfUserNameExists(String userName) {
         for (Player player : Player.getPlayers()) {
@@ -418,31 +424,37 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfCardCanBeRemovedFromTheDeck(Card card , Deck deck){
-        if(card instanceof Minion){
-            if(deck.getCards().contains(card))
+    public static boolean checkIfCardCanBeRemovedFromTheDeck(Card card, Deck deck) {
+        if (card instanceof Minion) {
+            if (deck.getCards().contains(card))
                 return true;
-            else{
+            else {
                 System.out.print("no card with this name in this");
-                return false ;
+                return false;
             }
-        }
-        else if(card instanceof Hero){
-            if(deck.getHero() == card)
-                return true ;
-            else
-            {
+        } else if (card instanceof Hero) {
+            if (deck.getHero() == card)
+                return true;
+            else {
                 System.out.print("this Hero is not in this deck\n");
-                return false ;
+                return false;
             }
         }
-        return false ;
+        return false;
     }
 
-    public static boolean checkIfDeckIsValid(Deck deck){
-        if(deck.getCards().size() == 20 && deck.getHero() != null)
-            return true ;
+    public static boolean checkIfDeckIsValid(Deck deck) {
+        if (deck.getCards().size() == 20 && deck.getHero() != null)
+            return true;
         else
-            return false ;
+            return false;
+    }
+
+    public static boolean checkIfItemExistsInShop(String itemName) {
+        for (Item item : Item.getItems()) {
+            if (item.getName().equals(itemName))
+                return true;
+        }
+        return false;
     }
 }

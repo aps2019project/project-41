@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+// when removing cards and items from collection or deck , we remove it just once while it can be repeated
 public class Player {
     private static ArrayList<Player> players = new ArrayList<Player>();
     private static Player logedInPlayer;
@@ -93,9 +94,41 @@ public class Player {
         this.collection.addCard(card);
     }
 
-    public void sellCard(Card card) {
-        this.deriks += card.getPrice();
-        this.collection.removeCard(card);
+    public void buyItem(Item item){
+        this.deriks -= item.getPrice();
+
     }
 
+    public void sellCard(Card card){
+        if(card instanceof Minion)
+            sellMinion((Minion)card);
+        else if (card instanceof Hero)
+            sellHero((Hero)card);
+    }
+
+    private void sellMinion(Minion minion){
+        this.deriks += minion.getPrice();
+        this.collection.removeCard(minion);
+        for(Deck deck : this.getDecks()){
+            deck.removeCard(minion);
+        }
+    }
+
+    private void sellHero(Hero hero) {
+        this.deriks += hero.getPrice();
+        this.collection.removeCard(hero);
+        for(Deck deck : this.getDecks()){
+            if(deck.getHero() == hero)
+                deck.removeHero();
+        }
+    }
+
+    public void sellItem(Item item){
+        this.deriks += item.getPrice();
+        this.collection.removeItem(item);
+        for(Deck deck : this.getDecks()){
+            if(deck.getItem() == item)
+                deck.removeItem();
+        }
+    }
 }

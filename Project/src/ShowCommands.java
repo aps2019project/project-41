@@ -11,7 +11,9 @@ public class ShowCommands {
     }
 
     public static void showCollection(Player player) {
-
+        showAllHeros(player.getCollection().getCards());
+        showAllMinions(player.getCollection().getCards());
+        showAllItems(player.getCollection().getItems());
     }
 
     public static void showLoginMenuCommands() {
@@ -38,14 +40,14 @@ public class ShowCommands {
     }
 
     public static void showAllCardsAndItemsInShop(){
-        showAllHerosInShop() ;
-        showAllMinionsInShop() ;
-        showAllItemsInShop() ;
+        showAllHeros(Card.getCards()) ;
+        showAllMinions(Card.getCards()) ;
+        showAllItems(Item.getItems()) ;
     }
 
-    private static void showAllHerosInShop(){
+    private static void showAllHeros(ArrayList<Card> cards){
         int i = 1 ;
-        for(Card card : Card.getCards()){
+        for(Card card : cards){
             if(card instanceof Hero){
                 System.out.printf("%d : Name : %s - AP : %d - HP : %d - class : %s - special power : %s - " +
                                 "sell cost : %d" , i++ , card.getName() , ((Hero) card).getAp() , ((Hero) card).getHp() ,
@@ -54,9 +56,9 @@ public class ShowCommands {
         }
     }
 
-    private static void showAllMinionsInShop(){
+    private static void showAllMinions(ArrayList<Card> cards){
         int i = 1 ;
-        for(Card card : Card.getCards()){
+        for(Card card : cards){
             if(card instanceof Minion){
                 System.out.printf("%d : Name : %s - AP : %d - HP : %d - class : %s - special power : %s - " +
                                 "sell cost : %d" , i++ , card.getName() , ((Minion) card).getAp() , ((Minion) card).getHp() ,
@@ -65,9 +67,9 @@ public class ShowCommands {
         }
     }
 
-    private static void showAllItemsInShop(){
+    private static void showAllItems(ArrayList<Item> items){
         int i = 1 ;
-        for(Item item : Item.getItems()){
+        for(Item item : items){
             System.out.printf("%d : Name : %s - Desc : %s - Sell Cost : %d" ,
                     i++ , item.getName() , "no description yet" , item.getPrice());
         }

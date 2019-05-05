@@ -19,9 +19,12 @@ public class SearchingFunctions {
         return null;
     }
 
-    public static int searchForCardOrItemInShopAndReturnID(String name) {
-
-        return 0;
+    public static String searchForCardOrItemInShopAndReturnID(String name) {
+        for(Card card : Card.getCards()){
+            if(card.getName().equalsIgnoreCase(name))
+                return card.getId();
+        }
+        return "";
     }
 
     public static Player findPlayer(String userName) {
@@ -103,6 +106,14 @@ public class SearchingFunctions {
         for(Item item : player.getCollection().getItems()){
             if(item.getName().equals(itemName))
                 return item;
+        }
+        return null;
+    }
+
+    public static Item findItemInAllItems(String itemName){
+        for(Item item : Item.getItems()){
+            if(item.getName().equalsIgnoreCase(itemName))
+                return item ;
         }
         return null;
     }
