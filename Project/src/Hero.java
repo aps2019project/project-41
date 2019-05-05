@@ -9,7 +9,7 @@ public class Hero extends Card{
     private String strikeType;
 
 
-    public Hero(int id, String name, int price,int hp, int ap, int coolDown, int attackRange, String attackType,
+    public Hero(String id, String name, int price,int hp, int ap, int coolDown, int attackRange, String attackType,
                 Spell specialPower, String strikeType) {
         super(id, name, price);
         this.hp = hp;

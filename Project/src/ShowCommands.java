@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+//not showing the special power in showcommand in collection
 
 public class ShowCommands {
     public static void showLeaderBoard() {
@@ -36,8 +37,40 @@ public class ShowCommands {
                 "select deck [deck name]\nshow all decks\nshow deck [deck name]\nhelp\n");
     }
 
-    public static void showAllCardsInShop(){
+    public static void showAllCardsAndItemsInShop(){
+        showAllHerosInShop() ;
+        showAllMinionsInShop() ;
+        showAllItemsInShop() ;
+    }
 
+    private static void showAllHerosInShop(){
+        int i = 1 ;
+        for(Card card : Card.getCards()){
+            if(card instanceof Hero){
+                System.out.printf("%d : Name : %s - AP : %d - HP : %d - class : %s - special power : %s - " +
+                                "sell cost : %d" , i++ , card.getName() , ((Hero) card).getAp() , ((Hero) card).getHp() ,
+                        card.getCardType() , "not considered now" , card.getPrice());
+            }
+        }
+    }
+
+    private static void showAllMinionsInShop(){
+        int i = 1 ;
+        for(Card card : Card.getCards()){
+            if(card instanceof Minion){
+                System.out.printf("%d : Name : %s - AP : %d - HP : %d - class : %s - special power : %s - " +
+                                "sell cost : %d" , i++ , card.getName() , ((Minion) card).getAp() , ((Minion) card).getHp() ,
+                        card.getCardType() , "not considered now" , card.getPrice());
+            }
+        }
+    }
+
+    private static void showAllItemsInShop(){
+        int i = 1 ;
+        for(Item item : Item.getItems()){
+            System.out.printf("%d : Name : %s - Desc : %s - Sell Cost : %d" ,
+                    i++ , item.getName() , "no description yet" , item.getPrice());
+        }
     }
 
     public static void showPlayerDecks(Player player){
@@ -46,10 +79,6 @@ public class ShowCommands {
     }
 
     public static void showDeck(Deck deck) {
-
-    }
-
-    public static void showAllCardsInShop() {
 
     }
 

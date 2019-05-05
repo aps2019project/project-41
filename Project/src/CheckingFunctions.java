@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 //searchItemOrCardCommand just searches the first name
 // not checking items in buying card in shop
 // remember to make cardID a String
+//not checking if deckName is invalid in addCardToDeck command in collection
+//when adding card to deck in collection , how should we know the id of the cards(used name instead)
 public class CheckingFunctions {
     // login menu commands
     public static boolean checkIfCreateAccountCommandAndProccessIt(String command) {
@@ -87,11 +89,11 @@ public class CheckingFunctions {
 
     public static boolean checkIfSearchItemOrCardInCollectionCommandAndProccessIt(String command) {
         if (Pattern.compile("search\\s+collection\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
-            int id = SearchingFunctions.searchForCardOrItemInCollectionAndReturnID(command.split("\\s+")[1], Player.getLogedInPlayer().getCollection());
-            if (id == 0)
+            String id = SearchingFunctions.searchForCardOrItemInCollectionAndReturnID(command.split("\\s+")[1], Player.getLogedInPlayer().getCollection());
+            if (id.equals(""))
                 System.out.print("no card or item with this name\n");
             else
-                System.out.printf("%d\n", id);
+                System.out.printf("%s\n", id);
             return true;
         }
         return false;
@@ -133,11 +135,12 @@ public class CheckingFunctions {
 
     public static boolean checkIfShopShowCommandAndProccessIt(String command) {
         if (command.equalsIgnoreCase("show")) {
-            ShowCommands.showAllCardsInShop();
+            ShowCommands.showAllCardsAndItemsInShop();
             return true;
         }
         return false;
     }
+
     //
     // collection menu commands
 
@@ -147,7 +150,7 @@ public class CheckingFunctions {
             if (checkIfPlayerHasTheDeck(deckName, Player.getLogedInPlayer()))
                 System.out.print("you already have a deck with this name\n");
             else
-                Player.getLogedInPlayer().addDeck(new Deck()); // should add deck's name
+                Player.getLogedInPlayer().addDeck(new Deck(deckName)); // should add deck's name
             return true;
         }
         return false;
@@ -166,25 +169,112 @@ public class CheckingFunctions {
     }
 
     public static boolean checkIfAddCardToDeckCommandAndProccessIt(String command) {
-
+        if (Pattern.compile("add\\s+\\w+\\s+to\\s+deck\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            String cardOrItemName = command.split("\\s+")[1];
+            String deckName = command.split("\\s+")[4];
+            Card card = SearchingFunctions.findCardInCollection(cardOrItemName, Player.getLogedInPlayer());
+            Deck deck = SearchingFunctions.findPlayerDeck(deckName, Player.getLogedInPlayer());
+            if (card != null) {
+                if (checkIfCardCanBeAddedToDeck(card, deck)) {
+                    if (card instanceof Minion)
+                        deck.addCard(card);
+                    else if (card instanceof Hero)
+                        deck.setHero((Hero) card);
+                    System.out.print("card added to deck");
+                }
+            } else {
+                Item item = SearchingFunctions.findItemInCollection(cardOrItemName, Player.getLogedInPlayer());
+                if (item != null) {
+                    if (deck.getItem() == null) {
+                        deck.setItem(item);
+                        System.out.print("item added to deck\n");
+                    } else
+                        System.out.print("there is already an item in this deck\n");
+                } else {
+                    System.out.print("no card or item with this name\n");
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public static boolean checkIfRemoveCardFromDeckCommandAndProccessIt(String command) {
-
+        if(Pattern.compile("remove\\s+\\w+\\s+from\\s+deck\\s+\\w+",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+            String cardOrItemName = command.split("\\s+")[1];
+            String deckName = command.split("\\s+")[4];
+            Deck deck = SearchingFunctions.findPlayerDeck(deckName , Player.getLogedInPlayer());
+            Card card = SearchingFunctions.findCardInCollection(cardOrItemName , Player.getLogedInPlayer());
+            if(card != null){
+                if(checkIfCardCanBeRemovedFromTheDeck(card , deck)){
+                    if(card instanceof Minion){
+                        deck.removeCard(card);
+                        System.out.print("card removed\n");
+                    }
+                    else{
+                        deck.removeHero();
+                        System.out.print("Hero removed\n");
+                    }
+                }
+            }
+            else {
+                Item item = SearchingFunctions.findItemInCollection(cardOrItemName , Player.getLogedInPlayer());
+                if(item != null){
+                    if(deck.getItem() == item){
+                        deck.removeItem();
+                        System.out.print("item removed\n");
+                    }
+                    else
+                        System.out.print("this item is not in this deck\n");
+                }
+                else
+                {
+                    System.out.print("you don't have this card");
+                }
+            }
+            return true;
+        }
+        return false ;
     }
 
     public static boolean checkIfValidateDeckCommandAndProccessIt(String command) {
-
+        if(Pattern.compile("validate\\s+deck\\s+\\w+",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+            String deckName = command.split("\\s+")[2];
+            Deck deck = SearchingFunctions.findPlayerDeck(deckName , Player.getLogedInPlayer());
+            if(deck != null){
+                if(checkIfDeckIsValid(deck))
+                    System.out.print("this deck is valid\n");
+                else
+                    System.out.print("this deck is not valid\n");
+            }
+            else
+                System.out.print("you don't have any deck with this name\n");
+            return true ;
+        }
+        return false ;
     }
 
     public static boolean checkIfSelectDeckCommandAndProccessIt(String command) {
-
+        if(Pattern.compile("select\\s+deck\\s+\\w+",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+            String deckName = command.split("\\s+")[2];
+            Deck deck = SearchingFunctions.findPlayerDeck(deckName , Player.getLogedInPlayer());
+            if(deck != null){
+                if(checkIfDeckIsValid(deck))
+                    Player.getLogedInPlayer().setMainDeck(deck);
+                else
+                    System.out.print("this deck is not valid\n");
+            }
+            else
+                System.out.print("you have no deck with this name\n");
+            return true;
+        }
+        return false ;
     }
 
     //
     //inBattleCommands
 
-    public static boolean checkIfBattleShowCommandAndProccessIt(String command , Game game) {
+    public static boolean checkIfBattleShowCommandAndProccessIt(String command, Game game) {
         if (Pattern.compile("game\\s+info", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             ShowCommands.showGameInfo(Game.getOnGoingGame());
             return true;
@@ -197,12 +287,12 @@ public class CheckingFunctions {
             else
                 ShowCommands.showPlayerMinions(Game.getOnGoingGame(), 1);
             return true;
-        } else if (Pattern.compile("show\\s+card\\s+info\\s+\\w", Pattern.CASE_INSENSITIVE).matcher(command).matches()){
+        } else if (Pattern.compile("show\\s+card\\s+info\\s+\\w", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             ShowCommands.showCardInfo(command.split("\\s+")[3], Game.getOnGoingGame());
             return true;
-        }else if (Pattern.compile("show\\s+hand",Pattern.CASE_INSENSITIVE).matcher(command).matches()){
-            ShowCommands.showHand(game , game.getTurn()%2);
-            return true ;
+        } else if (Pattern.compile("show\\s+hand", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
+            ShowCommands.showHand(game, game.getTurn() % 2);
+            return true;
         }
         return false;
     }
@@ -243,36 +333,35 @@ public class CheckingFunctions {
 
     public static boolean checkIfMoveCommandAndProccessIt(String command, Game game) {
         if (Pattern.compile("move\\s+to\\s+\\(\\d,\\d\\)", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
-            if(game.getSelectedCard() != null){
-                int[] cardLocation = SearchingFunctions.getCardLocation(game , game.getSelectedCard());
-                String location = command.split("\\s+")[2].substring(1,4);
-                int[] destination = new int[]{Integer.parseInt(location.substring(0 , 1)) ,
+            if (game.getSelectedCard() != null) {
+                int[] cardLocation = SearchingFunctions.getCardLocation(game, game.getSelectedCard());
+                String location = command.split("\\s+")[2].substring(1, 4);
+                int[] destination = new int[]{Integer.parseInt(location.substring(0, 1)),
                         Integer.parseInt(String.valueOf(location.charAt(2)))};
-                if(Math.abs(cardLocation[0] - destination[0]) + Math.abs(cardLocation[1] - destination[1])  <= 2)
-                    game.moveCard(game.getSelectedCard() , cardLocation , destination);
+                if (Math.abs(cardLocation[0] - destination[0]) + Math.abs(cardLocation[1] - destination[1]) <= 2)
+                    game.moveCard(game.getSelectedCard(), cardLocation, destination);
             }
-            return true ;
+            return true;
         }
-        return false ;
+        return false;
     }
 
-    public static boolean checkIfInsertCardCommandAndProccessIt(String command , Game game){
-        if(Pattern.compile("insert\\s+\\w+\\s+in\\s+\\(\\d,\\d\\)").matcher(command).matches()){
+    public static boolean checkIfInsertCardCommandAndProccessIt(String command, Game game) {
+        if (Pattern.compile("insert\\s+\\w+\\s+in\\s+\\(\\d,\\d\\)").matcher(command).matches()) {
             String cardName = command.split("\\s+")[1];
-            int[] destination = new int[]{Integer.parseInt(String.valueOf(command.split("\\s")[3].substring(1 , 4).charAt(0))),
-                    Integer.parseInt(String.valueOf(command.split("\\s")[3].substring(1 , 4).charAt(2)))} ;
-            Card card = SearchingFunctions.findCardInHand(cardName , game , game.getTurn()%2);
-            if(card != null){
-                if(game.getMap().getMapCells()[destination[0]][destination[1]].getCard() == null)
-                    game.insertCard(card , destination[0] , destination[1]);
+            int[] destination = new int[]{Integer.parseInt(String.valueOf(command.split("\\s")[3].substring(1, 4).charAt(0))),
+                    Integer.parseInt(String.valueOf(command.split("\\s")[3].substring(1, 4).charAt(2)))};
+            Card card = SearchingFunctions.findCardInHand(cardName, game, game.getTurn() % 2);
+            if (card != null) {
+                if (game.getMap().getMapCells()[destination[0]][destination[1]].getCard() == null)
+                    game.insertCard(card, destination[0], destination[1]);
                 else
                     System.out.print("invalid target\n");
-            }
-            else
+            } else
                 System.out.print("invalid card name\n");
-            return true ;
+            return true;
         }
-        return false ;
+        return false;
     }
 
 
@@ -297,8 +386,63 @@ public class CheckingFunctions {
     }
 
     public static boolean checkIfPlayerHasTheDeck(String deckName, Player player) {
-
-
+        for (Deck deck : player.getDecks()) {
+            if (deck.getName().equals(deckName))
+                return true;
+        }
         return false;
+    }
+
+    public static boolean checkIfCardCanBeAddedToDeck(Card card, Deck deck) {
+        if (card instanceof Minion) {
+            if (!deck.getCards().contains(card)) {
+                if (deck.getCards().size() != 20)
+                    return true;
+                else {
+                    System.out.print("the deck is full\n");
+                    return false;
+                }
+            } else {
+                System.out.print("the card is already in this deck\n");
+                return false;
+            }
+        }
+        if (card instanceof Hero) {
+            if (deck.getHero() == null)
+                return true;
+            else {
+                System.out.print("there is already a hero in this deck\n");
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkIfCardCanBeRemovedFromTheDeck(Card card , Deck deck){
+        if(card instanceof Minion){
+            if(deck.getCards().contains(card))
+                return true;
+            else{
+                System.out.print("no card with this name in this");
+                return false ;
+            }
+        }
+        else if(card instanceof Hero){
+            if(deck.getHero() == card)
+                return true ;
+            else
+            {
+                System.out.print("this Hero is not in this deck\n");
+                return false ;
+            }
+        }
+        return false ;
+    }
+
+    public static boolean checkIfDeckIsValid(Deck deck){
+        if(deck.getCards().size() == 20 && deck.getHero() != null)
+            return true ;
+        else
+            return false ;
     }
 }

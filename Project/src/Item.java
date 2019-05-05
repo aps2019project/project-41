@@ -1,9 +1,31 @@
+import java.util.ArrayList;
+
 public class Item {
-    private int id;
+    private String id;
     private String name;
+    private int price ;
+    private static ArrayList<Item> items = new ArrayList<Item>();
 
+    public Item(){
 
+        items.add(this);
+    }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public static ArrayList<Item> getItems(){
+        return items;
+    }
+
+    public String getID(){
+        return this.id;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public void tajDanaE() {
 

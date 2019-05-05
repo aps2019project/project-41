@@ -90,19 +90,12 @@ public class Player {
 
     public void buyCard(Card card) {
         this.deriks -= card.getPrice();
-        this.collection.cards.add(card);
+        this.collection.addCard(card);
     }
 
     public void sellCard(Card card) {
         this.deriks += card.getPrice();
-        this.collection.cards.remove(card);
+        this.collection.removeCard(card);
     }
 
-    public void addCardToDeck(Card card, Deck deck) {
-
-    }
-
-    public void deletCardFromDeck(Card card, Deck deck) {
-
-    }
 }
