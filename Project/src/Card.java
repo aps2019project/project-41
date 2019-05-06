@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public abstract class Card {
     private static ArrayList<Card> cards = new ArrayList<>();
-    private final String id;
+    private String id;
     private final String name;
     private final int price;
     private Player player;
