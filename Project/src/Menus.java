@@ -30,12 +30,12 @@ public class Menus {
                 return;
             else if (command.equalsIgnoreCase("help"))
                 ShowCommands.showShopMenuCommands();
-            else if (CheckingFunctions.checkIfShowCollectionCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfSearchItemOrCardInShopCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfBuyCardCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfSellCardCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfShopShowCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfShowCollectionCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfSearchItemOrCardInShopCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfBuyCardCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfSellCardCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfShopShowCommandAndProcessIt(command)) ;
         }
     }
 
@@ -50,13 +50,13 @@ public class Menus {
             else if (command.equalsIgnoreCase("help"))
                 ShowCommands.showCollectionMenuCommands();
             else if (command.equalsIgnoreCase("save")) ;
-            else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfCreateDeckCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfDeleteDeckCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfAddCardToDeckCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfRemoveCardFromDeckCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfValidateDeckCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfSelectDeckCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfCreateDeckCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfDeleteDeckCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfAddCardToDeckCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfRemoveCardFromDeckCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfValidateDeckCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfSelectDeckCommandAndProcessIt(command)) ;
             else if (Pattern.compile("show\\s+all\\s+decks",Pattern.CASE_INSENSITIVE).matcher(command).matches())
                 ShowCommands.showPlayerDecks(Player.getLogedInPlayer());
             else if (Pattern.compile("show\\s+deck\\s+\\w+",Pattern.CASE_INSENSITIVE).matcher(command).matches())
@@ -67,8 +67,8 @@ public class Menus {
                     System.out.print("you have no deck with this name\n");
             }
             else if (command.equalsIgnoreCase("save")) ;
-            else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfCreateDeckCommandAndProccessIt(command)) ;
+            else if (CheckingFunctions.checkIfSearchItemOrCardInCollectionCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfCreateDeckCommandAndProcessIt(command)) ;
 
         }
     }
@@ -79,13 +79,13 @@ public class Menus {
             command = Scanners.input.nextLine().trim();
             if (command.equalsIgnoreCase("exit"))
                 return -1;
-            else if (CheckingFunctions.checkIfCreateAccountCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfLoginCommandAndProccessIt(command)) {
+            else if (CheckingFunctions.checkIfCreateAccountCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfLoginCommandAndProcessIt(command)) {
                 ShowCommands.showMainMenuCommands();
                 return 1;
-            } else if (CheckingFunctions.checkIfShowLeaderBoardCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfSaveCommandAndProccessIt(command)) ;
-            else if (CheckingFunctions.checkIfLogOutCommandAndProccessIt(command)) {
+            } else if (CheckingFunctions.checkIfShowLeaderBoardCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfSaveCommandAndProcessIt(command)) ;
+            else if (CheckingFunctions.checkIfLogOutCommandAndProcessIt(command)) {
                 if (Menus.loginMenu() == -1)
                     return -1;
             } else if (command.equalsIgnoreCase("help"))

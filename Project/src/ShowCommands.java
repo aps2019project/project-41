@@ -11,7 +11,7 @@ public class ShowCommands {
     }
 
     public static void showCollection(Player player) {
-        showAllHeros(player.getCollection().getCards());
+        showAllHeroes(player.getCollection().getCards());
         showAllMinions(player.getCollection().getCards());
         showAllItems(player.getCollection().getItems());
     }
@@ -40,12 +40,12 @@ public class ShowCommands {
     }
 
     public static void showAllCardsAndItemsInShop(){
-        showAllHeros(Card.getCards()) ;
+        showAllHeroes(Card.getCards()) ;
         showAllMinions(Card.getCards()) ;
         showAllItems(Item.getItems()) ;
     }
 
-    private static void showAllHeros(ArrayList<Card> cards){
+    private static void showAllHeroes(ArrayList<Card> cards){
         int i = 1 ;
         for(Card card : cards){
             if(card instanceof Hero){
@@ -86,7 +86,7 @@ public class ShowCommands {
 
     public static void showGameInfo(Game game) {
         if (game.getGameMode() == 1)
-            showHerosHealth(game);
+            showHeroesHealth(game);
         else if (game.getGameMode() == 2)
             showFlagLocation(game.getMap().getMapCells());
         else if (game.getGameMode() == 3)
@@ -94,7 +94,7 @@ public class ShowCommands {
 
     }
 
-    public static void showHerosHealth(Game game) {
+    public static void showHeroesHealth(Game game) {
         Map map = game.getMap();
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 9; j++) {

@@ -96,7 +96,7 @@ public class Player {
 
     public void buyItem(Item item){
         this.deriks -= item.getPrice();
-
+        this.collection.addItem(item);
     }
 
     public void sellCard(Card card){

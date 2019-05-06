@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 //not generating any card id so i used card name instead in some cases --- > watch out shop and collection commands
 public class CheckingFunctions {
     // login menu commands
-    public static boolean checkIfCreateAccountCommandAndProccessIt(String command) {
+    public static boolean checkIfCreateAccountCommandAndProcessIt(String command) {
         if (Pattern.compile("create\\s+account\\s+\\w+]", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String splitedCommand[] = command.split("\\s+");
             if (checkIfUserNameExists(splitedCommand[2]))
@@ -23,7 +23,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfLoginCommandAndProccessIt(String command) { // returns true if logging into account was successful
+    public static boolean checkIfLoginCommandAndProcessIt(String command) { // returns true if logging into account was successful
         if (Pattern.compile("login\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String splitedCommand[] = command.split("\\s+");
             if (checkIfUserNameExists(splitedCommand[1])) {
@@ -40,7 +40,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfShowLeaderBoardCommandAndProccessIt(String command) {
+    public static boolean checkIfShowLeaderBoardCommandAndProcessIt(String command) {
         if (Pattern.compile("show\\s+leaderboard", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             SortingFunctions.sortPlayersByWin();
             ShowCommands.showLeaderBoard();
@@ -49,7 +49,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfSaveCommandAndProccessIt(String command) {
+    public static boolean checkIfSaveCommandAndProcessIt(String command) {
         if (command.equalsIgnoreCase("save")) {
 
             return true;
@@ -57,7 +57,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfLogOutCommandAndProccessIt(String commnad) {
+    public static boolean checkIfLogOutCommandAndProcessIt(String commnad) {
         if (commnad.equalsIgnoreCase("logout")) {
             Player.logOut();
             return true;
@@ -67,7 +67,7 @@ public class CheckingFunctions {
 
     //
     // shopMenu Commands
-    public static boolean checkIfShowCollectionCommandAndProccessIt(String command) {
+    public static boolean checkIfShowCollectionCommandAndProcessIt(String command) {
         if (Pattern.compile("show\\s+collection", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             ShowCommands.showCollection(Player.getLogedInPlayer());
             return true;
@@ -75,7 +75,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfSearchItemOrCardInShopCommandAndProccessIt(String command) {
+    public static boolean checkIfSearchItemOrCardInShopCommandAndProcessIt(String command) {
         if (Pattern.compile("search\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String splitedCommand[] = command.split("\\s+");
             String id = SearchingFunctions.searchForCardOrItemInShopAndReturnID(splitedCommand[1]);
@@ -88,7 +88,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfSearchItemOrCardInCollectionCommandAndProccessIt(String command) {
+    public static boolean checkIfSearchItemOrCardInCollectionCommandAndProcessIt(String command) {
         if (Pattern.compile("search\\s+collection\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String id = SearchingFunctions.searchForCardOrItemInCollectionAndReturnID(command.split("\\s+")[1], Player.getLogedInPlayer().getCollection());
             if (id.equals(""))
@@ -100,7 +100,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfBuyCardCommandAndProccessIt(String command) {
+    public static boolean checkIfBuyCardCommandAndProcessIt(String command) {
         if (Pattern.compile("buy\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String cardOrItemName = command.split("\\s+")[1];
             if (checkIfCardExistsInShop(cardOrItemName)) {
@@ -116,8 +116,12 @@ public class CheckingFunctions {
                 if(Player.getLogedInPlayer().getDeriks() < item.getPrice())
                     System.out.print("not enough deriks\n");
                 else{
-                    Player.getLogedInPlayer().buyItem(item);
-                    System.out.print("you bought the item\n");
+                    if(Player.getLogedInPlayer().getCollection().getItems().size() < 3){
+                        Player.getLogedInPlayer().buyItem(item);
+                        System.out.print("you bought the item\n");
+                    }
+                    else
+                        System.out.print("you already have 3 items in your collection\n");
                 }
             } else
                 System.out.print("there is no card or item with this name in the shop\n");
@@ -126,7 +130,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfSellCardCommandAndProccessIt(String command) {
+    public static boolean checkIfSellCardCommandAndProcessIt(String command) {
         if (Pattern.compile("sell\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String cardOrItemName = command.split("\\s+")[1];
             Card card = SearchingFunctions.findCardInCollection(cardOrItemName, Player.getLogedInPlayer());
@@ -146,7 +150,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfShopShowCommandAndProccessIt(String command) {
+    public static boolean checkIfShopShowCommandAndProcessIt(String command) {
         if (command.equalsIgnoreCase("show")) {
             ShowCommands.showAllCardsAndItemsInShop();
             return true;
@@ -157,7 +161,7 @@ public class CheckingFunctions {
     //
     // collection menu commands
 
-    public static boolean checkIfCreateDeckCommandAndProccessIt(String command) {
+    public static boolean checkIfCreateDeckCommandAndProcessIt(String command) {
         if (Pattern.compile("create\\s+deck\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String deckName = command.split("\\s+")[2];
             if (checkIfPlayerHasTheDeck(deckName, Player.getLogedInPlayer()))
@@ -169,7 +173,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfDeleteDeckCommandAndProccessIt(String command) {
+    public static boolean checkIfDeleteDeckCommandAndProcessIt(String command) {
         if (Pattern.compile("delete\\s+deck\\s+\\w", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String deckName = command.split("\\s+")[2];
             if (checkIfPlayerHasTheDeck(deckName, Player.getLogedInPlayer()))
@@ -181,7 +185,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfAddCardToDeckCommandAndProccessIt(String command) {
+    public static boolean checkIfAddCardToDeckCommandAndProcessIt(String command) {
         if (Pattern.compile("add\\s+\\w+\\s+to\\s+deck\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String cardOrItemName = command.split("\\s+")[1];
             String deckName = command.split("\\s+")[4];
@@ -212,7 +216,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfRemoveCardFromDeckCommandAndProccessIt(String command) {
+    public static boolean checkIfRemoveCardFromDeckCommandAndProcessIt(String command) {
         if (Pattern.compile("remove\\s+\\w+\\s+from\\s+deck\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String cardOrItemName = command.split("\\s+")[1];
             String deckName = command.split("\\s+")[4];
@@ -245,7 +249,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfValidateDeckCommandAndProccessIt(String command) {
+    public static boolean checkIfValidateDeckCommandAndProcessIt(String command) {
         if (Pattern.compile("validate\\s+deck\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String deckName = command.split("\\s+")[2];
             Deck deck = SearchingFunctions.findPlayerDeck(deckName, Player.getLogedInPlayer());
@@ -261,7 +265,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfSelectDeckCommandAndProccessIt(String command) {
+    public static boolean checkIfSelectDeckCommandAndProcessIt(String command) {
         if (Pattern.compile("select\\s+deck\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             String deckName = command.split("\\s+")[2];
             Deck deck = SearchingFunctions.findPlayerDeck(deckName, Player.getLogedInPlayer());
@@ -280,7 +284,7 @@ public class CheckingFunctions {
     //
     //inBattleCommands
 
-    public static boolean checkIfBattleShowCommandAndProccessIt(String command, Game game) {
+    public static boolean checkIfBattleShowCommandAndProcessIt(String command, Game game) {
         if (Pattern.compile("game\\s+info", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             ShowCommands.showGameInfo(Game.getOnGoingGame());
             return true;
@@ -325,7 +329,7 @@ public class CheckingFunctions {
 //
 //    }
 
-    public static boolean checkIfSelectCardCommandAndProccessIt(String command, Game game) {
+    public static boolean checkIfSelectCardCommandAndProcessIt(String command, Game game) {
         if (Pattern.compile("select\\s+\\w+", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             Card card = SearchingFunctions.findCardInGame(command.split("\\s+")[1], game);
             if (card != null)
@@ -337,7 +341,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfMoveCommandAndProccessIt(String command, Game game) {
+    public static boolean checkIfMoveCommandAndProcessIt(String command, Game game) {
         if (Pattern.compile("move\\s+to\\s+\\(\\d,\\d\\)", Pattern.CASE_INSENSITIVE).matcher(command).matches()) {
             if (game.getSelectedCard() != null) {
                 int[] cardLocation = SearchingFunctions.getCardLocation(game, game.getSelectedCard());
@@ -352,7 +356,7 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfInsertCardCommandAndProccessIt(String command, Game game) {
+    public static boolean checkIfInsertCardCommandAndProcessIt(String command, Game game) {
         if (Pattern.compile("insert\\s+\\w+\\s+in\\s+\\(\\d,\\d\\)").matcher(command).matches()) {
             String cardName = command.split("\\s+")[1];
             int[] destination = new int[]{Integer.parseInt(String.valueOf(command.split("\\s")[3].substring(1, 4).charAt(0))),
