@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Item {
     private String id;
     private String name;
-    private int price ;
+    private int price;
     private static ArrayList<Item> items = new ArrayList<Item>();
 
-    public Item(){
+    public Item() {
 
         items.add(this);
     }
@@ -15,11 +15,11 @@ public class Item {
         return price;
     }
 
-    public static ArrayList<Item> getItems(){
+    public static ArrayList<Item> getItems() {
         return items;
     }
 
-    public String getID(){
+    public String getID() {
         return this.id;
     }
 
@@ -32,105 +32,95 @@ public class Item {
 
     }
 
-    public void namuseSepar(){
+    public void namuseSepar() {
 
     }
 
-    public void kamaneDamol(){
-
-    }
-
-
-    public void nushDaroo(){
+    public void kamaneDamol() {
 
     }
 
 
-    public void tireDoShakh(){
+    public void nushDaroo() {
 
     }
 
 
-
-    public void pareSimorgh(){
-
-    }
-
-
-    public void Exir(){
+    public void tireDoShakh() {
 
     }
 
 
-
-    public void majuneMana(){
-
-    }
-
-
-
-    public void majuneRuEnTani(){
+    public void pareSimorgh() {
 
     }
 
 
-
-    public void nefrineMarg(){
-
-    }
-
-
-
-    public void randomDamage(){
+    public void Exir() {
 
     }
 
 
-
-    public void terrorHood(){
-
-    }
-
-
-    public void bladesOFAgility(){
-
-    }
-
-    public void kingWisdom(){
+    public void majuneMana() {
 
     }
 
 
-
-    public void assassiationDagger(){
-
-    }
-
-
-    public void poisonousDagger(){
+    public void majuneRuEnTani() {
 
     }
 
 
-
-    public void shockHammer(){
-
-    }
-
-
-
-    public void soulEater(){
+    public void nefrineMarg() {
 
     }
 
 
-    public void qosleTamid(){
+    public void randomDamage() {
 
     }
 
 
+    public void terrorHood() {
 
-    public void shamshireChini(){
+    }
+
+
+    public void bladesOFAgility() {
+
+    }
+
+    public void kingWisdom() {
+
+    }
+
+
+    public void assassiationDagger() {
+
+    }
+
+
+    public void poisonousDagger() {
+
+    }
+
+
+    public void shockHammer() {
+
+    }
+
+
+    public void soulEater() {
+
+    }
+
+
+    public void qosleTamid() {
+
+    }
+
+
+    public void shamshireChini() {
 
     }
 

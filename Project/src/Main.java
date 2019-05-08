@@ -5,9 +5,11 @@ public class Main {
     public static void main(String[] args) {
         if (Menus.loginMenu() != -1) {
             while (Menus.mainMenu() != -1) {
-                String command = Scanners.input.nextLine().trim();
+                while (true){
+                    String command = Scanners.input.nextLine();
 
 
+                } // in battle commands will be handled here
             }
         }
     }

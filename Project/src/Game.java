@@ -1,7 +1,11 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 // write a code for randomizing the decks before setting them into arrays
 // game starts with the player[1] giving the command
+//may be some problems in setting starting cards
+
 public class Game {
     private static Game onGoingGame;
     private Player[] players;
@@ -11,10 +15,13 @@ public class Game {
     private int turn;
     private int[] mana;
     private Card selectedCard;
+    private Hero[] heros;
+    private Item[] items;
     private ArrayList<ArrayList<Card>> cardsInMap;
     private ArrayList<ArrayList<Card>> cardsInHand;
-    private ArrayList<ArrayList<Card>> cardsInDeck;
+    private ArrayList<ArrayList<Card>> cardsRemainingInDeck;
     private ArrayList<ArrayList<Card>> graveyard;
+    private ArrayList<Spell> acteiveSpells;
 
     public Game(Player[] players, int gameMode, Deck[] decks) {
         this.players = players;
@@ -22,8 +29,13 @@ public class Game {
         map = new Map();
         turn = 1;
         mana[0] = 3;
-        mana[1] = 2;
-        // setting cards into arrays commands
+        mana[1] = 2; //game starts with player[1]
+        cardsInHand = new ArrayList<ArrayList<Card>>(2);
+        randomizeDecksOrder(decks);
+        setStartingHandsCards(decks);
+        setStartingRemainingInDeckCards(decks);
+        heros = new Hero[]{decks[0].getHero(), decks[1].getHero()};
+        items = new Item[]{decks[0].getItem(), decks[1].getItem()};
     }
 
     public void nextTurn() {
@@ -45,7 +57,7 @@ public class Game {
         return this.players;
     }
 
-    public ArrayList<ArrayList<Card>> getcardsInMap() {
+    public ArrayList<ArrayList<Card>> getCardsInMap() {
         return this.cardsInMap;
     }
 
@@ -53,8 +65,8 @@ public class Game {
         return this.cardsInHand;
     }
 
-    public ArrayList<ArrayList<Card>> getCardsInDeck() {
-        return this.cardsInDeck;
+    public ArrayList<ArrayList<Card>> getcardsRemainingInDeck() {
+        return this.cardsRemainingInDeck;
     }
 
     public int getGameMode() {
@@ -77,12 +89,12 @@ public class Game {
     public void insertCard(Card card, int x, int y) {
         if (map.getMapCells()[x][y].getCard() == null) {
             map.getMapCells()[x][y].setCard(card);
-            int playerNumber = this.getTurn()%2;
+            int playerNumber = this.getTurn() % 2;
             cardsInHand.get(playerNumber).remove(card);
             cardsInMap.get(playerNumber).add(card);
-            if (!cardsInDeck.get(playerNumber).isEmpty()) {
-                cardsInHand.get(playerNumber).add(cardsInDeck.get(playerNumber).get(0));
-                cardsInDeck.get(playerNumber).remove(0);
+            if (!cardsRemainingInDeck.get(playerNumber).isEmpty()) {
+                cardsInHand.get(playerNumber).add(cardsRemainingInDeck.get(playerNumber).get(0));
+                cardsRemainingInDeck.get(playerNumber).remove(0);
             }
         } else
             System.out.print("there is already a card in that mapcell\n");
@@ -95,15 +107,38 @@ public class Game {
     public static int watchIfGameEnds(Game game) {
         if (game.getGameMode() == 1)
             return CheckingFunctions.returnPlayerNumberWhoWonTheGameMode1(game);
-        else if (game.getGameMode() == 2)
-            return CheckingFunctions.returnPlayerNumberWhoWonTheGameMode2(game);
-        else if (game.getGameMode() == 3)
-            return CheckingFunctions.returnPlayerNumberWhoWonTheGameMode3(game);
+//        else if (game.getGameMode() == 2)
+//            return CheckingFunctions.returnPlayerNumberWhoWonTheGameMode2(game);
+//        else if (game.getGameMode() == 3)
+//            return CheckingFunctions.returnPlayerNumberWhoWonTheGameMode3(game);
         return -1;
     }//retruns -1 if no one wins the game , return number of player if he wins(0 , 1)
 
-    public void moveCard(Card card , int[] CardLocation , int[] destination){
+    public void moveCard(Card card, int[] CardLocation, int[] destination) {
         this.map.getMapCells()[CardLocation[0]][CardLocation[1]].setCard(null);
         this.map.getMapCells()[destination[0]][destination[1]].setCard(card);
     }
+
+    private void randomizeDecksOrder(Deck[] decks) {
+        Random rand = new Random();
+        for (int i = 0; i < 20; i++)
+            Collections.swap(decks[0].getCards(), rand.nextInt(20), rand.nextInt(20));
+        for (int i = 0; i < 20; i++)
+            Collections.swap(decks[1].getCards(), rand.nextInt(20), rand.nextInt(20));
+    }
+
+    private void setStartingHandsCards(Deck[] decks) {
+        for (int i = 0; i < 5; i++)
+            cardsInHand.get(0).add(decks[0].getCards().get(i));
+        for (int i = 0; i < 5; i++)
+            cardsInHand.get(1).add(decks[1].getCards().get(i));
+    }
+
+    private void setStartingRemainingInDeckCards(Deck[] decks) {
+        for (int i = 5; i < 20; i++)
+            cardsRemainingInDeck.get(0).add(decks[0].getCards().get(i));
+        for (int i = 0; i < 5; i++)
+            cardsRemainingInDeck.get(1).add(decks[1].getCards().get(i));
+    }
+
 }

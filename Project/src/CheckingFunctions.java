@@ -308,12 +308,12 @@ public class CheckingFunctions {
     }
 
     public static int returnPlayerNumberWhoWonTheGameMode1(Game game) {
-        for (Card card : game.getcardsInMap().get(0)) {
+        for (Card card : game.getCardsInMap().get(0)) {
             if (card instanceof Hero)
                 if (((Hero) card).getHp() <= 0)
                     return 1;
         }
-        for (Card card : game.getcardsInMap().get(1)) {
+        for (Card card : game.getCardsInMap().get(1)) {
             if (card instanceof Hero)
                 if (((Hero) card).getHp() <= 0)
                     return 0;
@@ -390,8 +390,11 @@ public class CheckingFunctions {
         return false;
     }
 
-    public static boolean checkIfPlayerHasTheCard(String cardName) {
-
+    public static boolean checkIfPlayerHasTheCard(String cardName , Player player) {
+        for(Card card : player.getCollection().getCards()){
+            if(card.getName().equalsIgnoreCase(cardName))
+                return true;
+        }
         return false;
     }
 

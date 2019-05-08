@@ -6,7 +6,8 @@ public abstract class Card {
     private final String name;
     private final int price;
     private Player player;
-
+    private boolean canMove = true ;
+    private boolean canAttack = true ;
     public Card(String id, String name, int price) {
         this.id = id;
         this.name = name;

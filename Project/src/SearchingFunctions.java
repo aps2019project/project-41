@@ -67,11 +67,11 @@ public class SearchingFunctions {
     }
 
     public static Card findCardInGame(String cardID, Game game) {
-        for (Card card : game.getcardsInMap().get(0)) {
+        for (Card card : game.getCardsInMap().get(0)) {
             if (card.getId().equalsIgnoreCase(cardID))
                 return card;
         }
-        for (Card card : game.getcardsInMap().get(1)) {
+        for (Card card : game.getCardsInMap().get(1)) {
             if (card.getId().equalsIgnoreCase(cardID))
                 return card;
         }
