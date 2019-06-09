@@ -374,6 +374,11 @@ public class CheckingFunctions {
         return false;
     }
 
+    public static boolean checkIfAttackCommandAndProccessIt(String command , Game game){
+
+        return false ;
+    }
+
     //
     //not categorized commands
 
@@ -464,4 +469,35 @@ public class CheckingFunctions {
         }
         return false;
     }
+
+    public static boolean checkIfTheCardsAreForAPlayer(Card firstCard , Card secondCard , Game game){
+        boolean hasFirstCard = false , hasSecondCard = false ;
+        for(int i = 0 ; i <= 1 ; i++) {
+            for (Card card : game.getCardsInMap().get(i)){
+                if(card == firstCard)
+                    hasFirstCard = true ;
+                else if(card == secondCard)
+                    hasSecondCard = true ;
+            }
+        }
+        if(hasFirstCard && hasSecondCard)
+            return true ;
+        hasFirstCard = false ; hasSecondCard = false;
+        for(int i = 0 ; i <= 1 ; i++) {
+            for (Card card : game.getCardsInHand().get(i)){
+                if(card == firstCard)
+                    hasFirstCard = true ;
+                else if(card == secondCard)
+                    hasSecondCard = true ;
+            }
+        }
+        if(hasFirstCard && hasSecondCard)
+            return true ;
+        return false ;
+    }
+
+    public static boolean checkIfAttackingIsPossible(Card attacker , Card defender , int distance){
+
+        return false ;
+    }//not complete
 }

@@ -83,7 +83,27 @@ public class Game {
 
     public void attack(Card fromCard, Card toCard) {
         // check if Cards are not for one player
-        this.map.attack(fromCard, toCard);
+        if (!CheckingFunctions.checkIfTheCardsAreForAPlayer(fromCard, toCard, this)) {
+            if (CheckingFunctions.checkIfAttackingIsPossible(fromCard, toCard, getDistance(fromCard, toCard))){
+                if(fromCard instanceof Hero) {
+                    ((Hero) fromCard).attack(toCard);
+                    ((Hero) fromCard.
+
+                }
+                else if(fromCard instanceof Minion)
+                    ((Minion)fromCard).attack(toCard);
+                if(toCard instanceof Hero)
+                    ((Hero)toCard).counterAttack(toCard);
+                else if(toCard instanceof Minion)
+                    ((Minion)toCard).counterAttack(toCard);
+            }
+            else{
+                // showing attacking is not possible
+            }
+        }
+        else{
+            //showing attacking is not possible
+        }
     } // incomplete
 
     public void insertCard(Card card, int x, int y) {
@@ -141,4 +161,20 @@ public class Game {
             cardsRemainingInDeck.get(1).add(decks[1].getCards().get(i));
     }
 
+    private int getDistance(Card firstCard, Card secondCard) {
+        int[] firstCardLocation = new int[2];
+        int[] secondCardLocation = new int[2];
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (this.getMap().getMapCells()[i][j].getCard() == firstCard) {
+                    firstCardLocation[0] = i;
+                    firstCardLocation[1] = j;
+                } else if (this.getMap().getMapCells()[i][j].getCard() == secondCard) {
+                    secondCardLocation[0] = i;
+                    secondCardLocation[1] = j;
+                }
+            }
+        }
+        return ((Math.abs(firstCardLocation[0] - secondCardLocation[0])) + Math.abs(firstCardLocation[1] - secondCardLocation[1]));
+    }
 }

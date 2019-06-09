@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Hero extends Card{
+public class Hero extends Card implements Worrior{
     private int hp;
     private int ap;
     private int coolDown;
@@ -88,5 +88,17 @@ public class Hero extends Card{
         new Hero("8","Afsaneh",11000,40,3,AttackType.ranged,1,3,null,1,2);
         new Hero("9","Esfandiar",12000,35,3,AttackType.hybrid,0,3,null,0,1);
         new Hero("10","Rostam",8000,55,7,AttackType.hybrid,0,4,null,0,0);
+    }
+
+    public void attack(Card targetCard){
+        if(targetCard instanceof Hero)
+            ((Hero)targetCard).setHp(((Hero)targetCard).getHp() - this.ap);
+        else if(targetCard instanceof Minion)
+            ((Minion)targetCard).setHp(((Hero)targetCard).getHp() - this.ap);
+
+    }
+
+    public void counterAttack(Card targetCard){
+        this.attack(targetCard);
     }
 }
